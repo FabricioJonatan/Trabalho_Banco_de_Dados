@@ -1,0 +1,18 @@
+Provedor:
+
+
+clientes
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	nome VARCHAR(45),
+	telefone VARCHAR(20),
+	endereco VARCHAR(60)
+
+planos
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	nome VARCHAR(45),
+	largura_banda INT,
+	preco INT
+
+clientes_tem_planos
+	id_cliente INT FK(clientes.id)
+	id_plano INT FK(planos.id)
