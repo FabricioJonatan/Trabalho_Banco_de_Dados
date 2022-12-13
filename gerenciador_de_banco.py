@@ -61,57 +61,41 @@ def get_colunas(banco, tabela):
     return colunas
     
 def insert(banco, tabela, colunas):
-    valores=[]
+    valores = []
     conexao = banco.conectar()
     exec = conexao.cursor()
     inserir = f'INSERT INTO {tabela} ('
 
     for coluna in range(len(colunas)):
-        if colunas[0][0] == 'id':
-            if coluna != 0 and coluna != len(colunas) -1:
-                inserir += f'{colunas[coluna][0]}, '
-            elif coluna == len(colunas) - 1:
-                inserir += f'{colunas[coluna][0]}) VALUES ('
-        else:
-            if coluna != len(colunas) -1:
-                inserir += f'{colunas[coluna][0]}, '
-            elif coluna == len(colunas) - 1:
-                inserir += f'{colunas[coluna][0]}) VALUES ('
+        if coluna != len(colunas) -1:
+            inserir += f'{colunas[coluna][0]}, '
+        elif coluna == len(colunas) - 1:
+            inserir += f'{colunas[coluna][0]}) VALUES ('
+
+    for dado in range(len(colunas)):
+        if colunas[dado][0] == 'id':
+            inserir += 'DEFAULT, '
+        elif dado != len(colunas) - 1:
+            inserir += '%s, '
+        elif dado == len(colunas) - 1:
+            inserir += '%s)'
     
     for dado in range(len(colunas)):
-        if colunas[0][0] == 'id':
-            if dado != 0 and dado != len(colunas) - 1:
-                inserir += '%s, '
-            elif dado == len(colunas) - 1:
-                inserir += '%s)'
-        else:
-            if dado != len(colunas) - 1:
-                inserir += '%s, '
-            elif dado == len(colunas) - 1:
-                inserir += '%s)'
-
-        if colunas[0][0] == 'id':
-            if dado != 0:
-                if colunas[dado][1] == 'int':
-                    dado_usuario = int(input(f'Digite o(a) {colunas[dado][0]} (Digite em numero por favor) : '))
-                elif colunas[dado][1] == 'float':
-                    dado_usuario = float(input(f'Digite o(a) {colunas[dado][0]} (Digite em numero por favor) : '))
-                elif 'date' in colunas[dado][1]:
-                    dado_usuario = input(f'Digite o(a) {colunas[dado][0]} (ex : ano-mês-dia) : ')
-                else:
-                    dado_usuario = input(f'Digite o(a) {colunas[dado][0]} : ').capitalize().strip()
-                valores.append(dado_usuario)
-        else:
-            if colunas[dado][1] == 'int':
-                dado_usuario = int(input(f'Digite o(a) {colunas[dado][0]} (Digite em numero por favor) : '))
-            elif colunas[dado][1] == 'float':
-                dado_usuario = float(input(f'Digite o(a) {colunas[dado][0]} (Digite em numero por favor) : '))
-            elif 'date' in colunas[dado][1]:
-                dado_usuario = input(f'Digite o(a) {colunas[dado][0]} (ex : ano-mês-dia) : ')
-            else:
-                dado_usuario = input(f'Digite o(a) {colunas[dado][0]} : ').capitalize().strip()
+        if colunas[dado][0] == 'id':
+            default = 'DEFAULT'
+        elif colunas[dado][1] == 'int':
+            dado_usuario = int(input(f'Digite o(a) {colunas[dado][0]} (Digite em numero por favor) : '))
             valores.append(dado_usuario)
-    
+        elif colunas[dado][1] == 'float':
+            dado_usuario = float(input(f'Digite o(a) {colunas[dado][0]} (Digite em numero por favor) : '))
+            valores.append(dado_usuario)
+        elif 'date' in colunas[dado][1]:
+            dado_usuario = input(f'Digite o(a) {colunas[dado][0]} (ex : ano-mês-dia) : ')
+            valores.append(dado_usuario)
+        else:
+            dado_usuario = input(f'Digite o(a) {colunas[dado][0]} : ').capitalize().strip()
+            valores.append(dado_usuario)
+
     exec.execute(inserir, valores)
     conexao.commit()
     exec.close()
