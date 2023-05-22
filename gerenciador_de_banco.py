@@ -326,7 +326,7 @@ def sair():
 
 #           MENU DO USUÁRIO
 
-conexao = Fabrica_conexoes('localhost', 'root', 'provedor', '')
+conexao = Fabrica_conexoes('localhost', 'root', 'os', '')
 tabelas = get_tabelas(conexao)
 menu_tabelas()
 tabela = select_tabela(tabelas)
