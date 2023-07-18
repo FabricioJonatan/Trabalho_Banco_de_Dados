@@ -318,7 +318,6 @@ def comando_join(banco, tabela, tabelas, colunas):
                 else:
                     print(f'{dados[linha][dado]:^20}', end='')
         print('\n','==' * 60)
-    print(juntar)
     
 def sair():
     print('\n\033[34mTenha um bom dia!!\033[m\n')
